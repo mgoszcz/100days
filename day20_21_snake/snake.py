@@ -1,29 +1,32 @@
-from time import sleep
-from turtle import Turtle, Screen
+from turtle import Turtle
 from typing import List
 
 MOVE_DISTANCE = 20
 
+
 class Snake:
     def __init__(self):
-        self._segments: List[Turtle] = []
+        self.segments: List[Turtle] = []
         self._initialize()
         self._heading = 0
-        self.head = self._segments[0]
+        self.head = self.segments[0]
 
     def _initialize(self):
         for i in range(3):
-            segment = Turtle('square')
-            segment.color('white')
-            segment.penup()
-            segment.goto(0 - i * MOVE_DISTANCE, 0)
-            self._segments.append(segment)
+            self._add_segment((0 - i * MOVE_DISTANCE, 0))
+
+    def _add_segment(self, position):
+        segment = Turtle('square')
+        segment.color('white')
+        segment.penup()
+        segment.goto(position)
+        self.segments.append(segment)
 
     def move(self):
-        snake_length = len(self._segments)
+        snake_length = len(self.segments)
         for i in range(snake_length - 1, 0, -1):
-            segment = self._segments[i]
-            segment.goto(self._segments[i - 1].position())
+            segment = self.segments[i]
+            segment.goto(self.segments[i - 1].position())
         self.head.forward(MOVE_DISTANCE)
 
     def _set_heading(self, heading: int):
@@ -45,3 +48,6 @@ class Snake:
 
     def right(self):
         self._set_heading(0)
+
+    def grow(self):
+        self._add_segment(self.segments[-1].position())
