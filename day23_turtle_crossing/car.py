@@ -1,15 +1,19 @@
-from time import sleep
-from turtle import Turtle
+from random import randint
+from turtle import Turtle, colormode
 
+colormode(255)
 
 class Car(Turtle):
-    def __init__(self, screen):
+    def __init__(self):
         super().__init__()
-        self._screen = screen
         self.penup()
-        self.goto(-300, 0)
+        self.shape('square')
+        self.color(randint(0, 255), randint(0, 255), randint(0, 255))
+        self.shapesize(1, 2)
 
-    def move_forward(self):
-        self.forward(10)
-        sleep(1)
-        self._screen.update()
+
+    def move(self, speed):
+        self.backward(1 * speed)
+
+    def bounding_rect(self):
+        return (self.xcor() - 20, self.xcor() + 20), (self.ycor() -10, self.ycor() + 10)
