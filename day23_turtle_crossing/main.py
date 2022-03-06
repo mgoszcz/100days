@@ -8,7 +8,6 @@ from day23_turtle_crossing.statics import CARS_COUNT_BASE
 
 game_over = False
 level_finished = False
-level_pause = True
 
 screen = Screen()
 screen.setup(600, 600)
@@ -22,7 +21,6 @@ screen.listen()
 screen.onkey(key='Up', fun=turtle.move_forward)
 screen.onkey(key='Down', fun=turtle.move_backward)
 
-# car = Car()
 car_container = CarContainer(CARS_COUNT_BASE * difficulty_selected)
 scoreboard = ScoreBoard()
 screen.update()
