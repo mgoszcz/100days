@@ -38,7 +38,7 @@ screen.onkey(key='Right', fun=snake.right)
 continue_game = True
 
 while continue_game:
-    sleep(0.1)
+    sleep(0.2)
     screen.update()
     snake.move()
     if snake.head.distance(food.position()[0], food.position()[1]) < 20:
