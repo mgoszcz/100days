@@ -7,10 +7,11 @@ class ScoreBoard(Turtle):
         self._score = 0
         self.hideturtle()
         self.penup()
-        self.goto(-280, 280)
         self.write_score()
 
     def write_score(self):
+        self.clear()
+        self.goto(-280, 280)
         self.write(f'Level: {self._score}', align='left')
 
     @property
@@ -19,7 +20,6 @@ class ScoreBoard(Turtle):
 
     def add_point(self):
         self._score += 1
-        self.clear()
         self.write_score()
 
     def game_over(self):

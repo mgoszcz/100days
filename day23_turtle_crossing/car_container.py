@@ -10,7 +10,7 @@ class CarContainer:
         self._max_car_count = car_count
         self._cars = []
         self.cars_initialize()
-        self._speed = 5
+        self._speed = 1
 
     def cars_initialize(self):
         while len(self._cars) < self._max_car_count:
@@ -22,13 +22,12 @@ class CarContainer:
         cars_out_of_bounds = []
         for car in self._cars:
             car.move(self._speed)
-            if car.xcor() == MIN_X:
+            if car.xcor() < MIN_X:
                 cars_out_of_bounds.append(car)
 
         for car in cars_out_of_bounds:
             car.hideturtle()
             self._cars.remove(car)
-            del car
             new_car = Car()
             new_car.goto(MAX_X, randint(MIN_Y, MAX_Y))
             self._cars.append(new_car)
@@ -42,8 +41,6 @@ class CarContainer:
         turtle_bottom = turtle_position[1][0]
         turtle_top = turtle_position[1][1]
         for car in self._cars:
-            print(f'Turtle: {turtle_position}')
-            print(f'Car: {car.bounding_rect()}')
             car_left = car.bounding_rect()[0][0]
             car_right = car.bounding_rect()[0][1]
             car_bottom = car.bounding_rect()[1][0]
