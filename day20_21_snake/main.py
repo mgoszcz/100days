@@ -53,5 +53,6 @@ while continue_game:
         continue_game = False
 
 scoreboard.game_over()
+scoreboard.update_high_score_if_needed()
 
 screen.exitonclick()
