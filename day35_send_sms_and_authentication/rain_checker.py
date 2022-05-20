@@ -2,9 +2,11 @@ import smtplib
 
 import requests
 
-API_KEY = '6b0249c65565af486105bc020a6b5980'
+
 # LAT = 50.2584
 # LON = 19.0275
+from day35_send_sms_and_authentication.api_key import API_KEY
+
 LAT = 52.220852
 LON = 6.890950
 MY_EMAIL = "test.mg.python@gmail.com"
