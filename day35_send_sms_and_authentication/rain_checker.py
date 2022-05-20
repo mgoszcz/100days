@@ -5,7 +5,9 @@ import requests
 
 # LAT = 50.2584
 # LON = 19.0275
-from day35_send_sms_and_authentication.api_key import API_KEY
+import os
+
+API_KEY = os.environ.get('OWM_API_KEY')
 
 LAT = 52.220852
 LON = 6.890950
