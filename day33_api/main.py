@@ -4,6 +4,7 @@ and it is currently dark
 Then send me an email to tell me to look up
 run the code every 60 seconds
 """
+import os
 import smtplib
 import time
 from datetime import datetime
@@ -16,6 +17,7 @@ MY_LAT = 50.223434
 MY_LONG = 18.995586
 UTC = pytz.UTC
 ISS_CLOSE = False
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 
 def get_iss_position() -> Tuple[float]:
@@ -83,7 +85,7 @@ def send_mail(close: bool) -> None:
         print('ISS close, send mail')
     my_email = "test.mg.python@gmail.com"
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as connection:
-        connection.login(user=my_email, password="test python")
+        connection.login(user=my_email, password=EMAIL_PASSWORD)
         connection.sendmail(from_addr=my_email, to_addrs="marcin.goszczynski88@gmail.com",
                             msg="Subject:ISS Close\n\nLook Up!")
 

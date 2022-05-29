@@ -8,6 +8,7 @@ import requests
 import os
 
 API_KEY = os.environ.get('OWM_API_KEY')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 LAT = 52.220852
 LON = 6.890950
@@ -33,7 +34,7 @@ for hour in data.get('hourly')[:12]:
 
 if rain_today:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as connection:
-        connection.login(user=MY_EMAIL, password="test python")
+        connection.login(user=MY_EMAIL, password=EMAIL_PASSWORD)
         connection.sendmail(from_addr=MY_EMAIL, to_addrs="marcin.goszczynski88@gmail.com",
                         msg="Subject:It will rain today\n\nTake an umbrella")
 
