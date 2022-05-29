@@ -12,7 +12,8 @@ EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 AV_URL = 'https://www.alphavantage.co/query'
 NEWS_API_URL = 'https://newsapi.org/v2/everything'
 DAILY_TIME_SERIES_DICT_KEY = 'Time Series (Daily)'
-IGNORE_THRESHOLD = True
+IGNORE_THRESHOLD = False
+THRESHOLD = 5
 MY_EMAIL = "test.mg.python@gmail.com"
 
 ## STEP 1: Use https://www.alphavantage.co
@@ -32,7 +33,7 @@ last_day_price = float(stock_data.get(DAILY_TIME_SERIES_DICT_KEY).get(daily_data
 previous_day_price = float(stock_data.get(DAILY_TIME_SERIES_DICT_KEY).get(daily_data_keys[1]).get('4. close'))
 difference = last_day_price - previous_day_price
 percentage = difference / previous_day_price * 100
-if abs(percentage) < 5 and not IGNORE_THRESHOLD:
+if abs(percentage) < THRESHOLD and not IGNORE_THRESHOLD:
     exit(0)
 
 ## STEP 2: Use https://newsapi.org
