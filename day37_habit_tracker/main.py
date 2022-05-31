@@ -55,6 +55,12 @@ headers = {'X-USER-TOKEN': TOKEN}
 today = datetime.now()
 
 ### Delete pixel
-endpoint = f'{steps_graph_endpoint}/{today.strftime("%Y%m%d")}'
-response = requests.delete(url=endpoint, headers=headers)
+# endpoint = f'{steps_graph_endpoint}/{today.strftime("%Y%m%d")}'
+# response = requests.delete(url=endpoint, headers=headers)
+# print(response.text)
+
+### Update user
+user_endpoint = 'https://pixe.la/@mgoszcz'
+params = {'timezone': 'Warszawa'}
+response = requests.put(url=user_endpoint, json=params, headers=headers)
 print(response.text)

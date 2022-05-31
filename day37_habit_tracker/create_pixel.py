@@ -2,7 +2,7 @@ from datetime import datetime
 
 import requests
 
-from day37_habit_tracker.my_token import TOKEN
+from my_token import TOKEN
 
 today = datetime.now()
 
