@@ -16,14 +16,36 @@
     'Low price alert! Only $41 to fly from London-STN to Berlin-SXF,
     from 2020-08-25 to 2020-09-10'
 """
+import os
+import smtplib
+
 from day39_flight_finder.destinations import Destinations
 from day39_flight_finder.flight_search import FlightSearch
 
+MESSAGE_TEMPLATE = 'LOW price alert! Only {price} PLN to fly from {city_from}-{iata_fly_from}' \
+                   ' to {city_to}-{iata_fly_to}\nFrom {departure_time} to {return_time}'
+TITLE_TEMPLATE = 'Low price flight to {destination} found!'
+MY_EMAIL = "test.mg.python@gmail.com"
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 destinations = Destinations()
 flight_search = FlightSearch()
-flight_search.departure_city = 'Katowice'
+flight_search.departure_city = 'Frankfurt'
 
 result = []
+
+
+def send_email(flight_data):
+    message = MESSAGE_TEMPLATE.format(price=flight_data.price, city_from=flight_data.city_from,
+                                      iata_fly_from=flight_data.fly_from,
+                                      city_to=flight_data.city_to, iata_fly_to=flight_data.fly_to,
+                                      departure_time=flight_data.date_time_departure.strftime("%d-%m-%Y %H:%M:%S"),
+                                      return_time=flight_data.date_time_return.strftime("%d-%m-%Y %H:%M:%S"))
+    title = TITLE_TEMPLATE.format(destination=flight_data.city_to)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as connection:
+        connection.login(user=MY_EMAIL, password=EMAIL_PASSWORD)
+        connection.sendmail(from_addr=MY_EMAIL, to_addrs="marcin.goszczynski88@gmail.com",
+                            msg=f"Subject:{title}\n\n{message}")
+
 
 for destination in destinations.destinations:
     flight = flight_search.find_cheapest_flights(destination.iata_code)
@@ -33,5 +55,4 @@ for destination in destinations.destinations:
         result.append(flight)
 
 for flight in result:
-    print(f'LOW price alert! Only {flight.price} EUR to fly from {flight.city_from}-{flight.fly_from}'
-          f' to {flight.city_to}-{flight.fly_to}\nDate: {flight.date_time.strftime("%d-%m-%Y %H:%M:%S")}')
+    send_email(flight)

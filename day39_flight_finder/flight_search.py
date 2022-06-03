@@ -15,14 +15,15 @@ class _Flight:
         self.city_to = flight_dict.get('cityTo')
         self.fly_from = flight_dict.get('flyFrom')
         self.fly_to = flight_dict.get('flyTo')
-        self.date_time = datetime.fromtimestamp(flight_dict.get('dTime'))
+        self.date_time_departure = datetime.fromtimestamp(flight_dict.get('route')[0].get('dTime'))
+        self.date_time_return = datetime.fromtimestamp(flight_dict.get('route')[1].get('dTime'))
 
 
 class FlightSearch:
 
     def __init__(self) -> None:
         self._departure_city = None
-        self._departue_iata_code = None
+        self._departure_iata_code = None
 
     @staticmethod
     def get_city_iata_code(city_name: str) -> str:
@@ -44,7 +45,7 @@ class FlightSearch:
         if not iata_code:
             raise AttributeError('City does not have IATA code, provide another city with airports')
         self._departure_city = value
-        self._departue_iata_code = iata_code
+        self._departure_iata_code = iata_code
 
     def find_cheapest_flights(self, destination) -> _Flight:
         if not self._departure_city:
@@ -52,12 +53,16 @@ class FlightSearch:
         tomorrow = datetime.now() + timedelta(days=1)
         six_months_later = tomorrow + timedelta(days=30 * 6)
         parameters = {
-            'fly_from': self._departue_iata_code,
+            'fly_from': self._departure_iata_code,
             'fly_to': destination,
             'date_from': tomorrow.strftime('%d/%m/%Y'),
             'date_to': six_months_later.strftime('%d/%m/%Y'),
             'sort': 'price',
-            'max_stopovers': 0
+            'max_stopovers': 0,
+            'flight_type': 'round',
+            'nights_in_dst_from': 7,
+            'nights_in_dst_to': 14,
+            'curr': 'PLN'
         }
         response = requests.get(url=FLIGHT_SEARCH_ENDPOINT, headers=HEADER, params=parameters)
         response.raise_for_status()
